@@ -1,0 +1,33 @@
+pipeline{
+    agent any
+    tools {
+    terraform 'terraform-11'
+    }
+    stages{
+        stage('Git Checkout') {
+            steps {
+               git credentialsId: 'Git-Credentials', url: 'https://github.com/femi-john/terraformvpc.git'
+            }
+        }
+        stage('Terraform initilization/plan') {
+            steps {
+                sh 'terraform init'
+                sh 'terraform plan'
+            }
+        }
+        stage ("Terraform Plan Approval") {
+            agent none
+            steps {
+                script {
+                    def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
+                }
+            }
+        }
+        stage('Terraform apply') {
+            steps {
+                sh label: '', script: 'terraform destroy --auto-approve'
+                    
+                }
+            }
+        }
+    }

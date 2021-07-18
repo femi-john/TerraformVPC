@@ -1,5 +1,5 @@
 provider "aws" {
-  region  = "ca-central-1"
+  region  = "us-east-1"
 }
 # Create a VPC
 resource "aws_vpc" "rbcvpc" {

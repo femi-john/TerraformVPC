@@ -19,5 +19,5 @@ variable "redhatami" {
   default = "ami-0277fbe7afa8a33a6"
 }
 variable "key_name" {
-  default = "kings"
+  default = "jenkins-key"
 }
